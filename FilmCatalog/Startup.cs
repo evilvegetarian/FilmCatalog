@@ -1,3 +1,4 @@
+using FilmCatalog.Data;
 using FilmCatalog.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -22,7 +23,7 @@ namespace FilmCatalog
         {
             Configuration.Bind("ConnectionStrings", new Config());
 
-            services.AddDbContext<>(options => options.UseSqlServer(Config.DefaultConnection))
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Config.DefaultConnection));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

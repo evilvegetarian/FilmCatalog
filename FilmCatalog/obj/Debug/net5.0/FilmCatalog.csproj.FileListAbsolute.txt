@@ -1,0 +1,8 @@
+C:\Users\veget\source\repos\FilmCatalog\FilmCatalog\obj\Debug\net5.0\FilmCatalog.csproj.AssemblyReference.cache
+C:\Users\veget\source\repos\FilmCatalog\FilmCatalog\obj\Debug\net5.0\FilmCatalog.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\veget\source\repos\FilmCatalog\FilmCatalog\obj\Debug\net5.0\FilmCatalog.AssemblyInfoInputs.cache
+C:\Users\veget\source\repos\FilmCatalog\FilmCatalog\obj\Debug\net5.0\FilmCatalog.AssemblyInfo.cs
+C:\Users\veget\source\repos\FilmCatalog\FilmCatalog\obj\Debug\net5.0\FilmCatalog.csproj.CoreCompileInputs.cache
+C:\Users\veget\source\repos\FilmCatalog\FilmCatalog\obj\Debug\net5.0\FilmCatalog.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\veget\source\repos\FilmCatalog\FilmCatalog\obj\Debug\net5.0\FilmCatalog.RazorAssemblyInfo.cache
+C:\Users\veget\source\repos\FilmCatalog\FilmCatalog\obj\Debug\net5.0\FilmCatalog.RazorAssemblyInfo.cs
