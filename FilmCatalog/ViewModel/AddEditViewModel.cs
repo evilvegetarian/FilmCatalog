@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FilmCatalog.ViewModel
 {
@@ -11,14 +8,14 @@ namespace FilmCatalog.ViewModel
     {
         public int Id { get; set; }
 
-        [Display(Name ="Название")]
-        [Required(ErrorMessage ="не указано название фильма")]
-        [StringLength(128, MinimumLength =2,ErrorMessage ="Длина должна быть от 2 до 128 символов")]
+        [Display(Name = "Название")]
+        [Required(ErrorMessage = "не указано название фильма")]
+        [StringLength(128, MinimumLength = 2, ErrorMessage = "Длина должна быть от 2 до 128 символов")]
         public string Name { get; set; }
 
-        [Display(Name ="Описание"]
-        [Required(ErrorMessage ="не указано описание фильма")]
-        [StringLength(4096,MinimumLength =10,ErrorMessage = "Длина должна быть от 10 до 4096 символов")]
+        [Display(Name = "Описание")]
+        [Required(ErrorMessage = "не указано описание фильма")]
+        [StringLength(4096, MinimumLength = 10, ErrorMessage = "Длина должна быть от 10 до 4096 символов")]
         public string Description { get; set; }
 
         [Display(Name = "Год выхода")]
