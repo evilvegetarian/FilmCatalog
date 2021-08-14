@@ -12,8 +12,8 @@ namespace FilmCatalog.Controllers
         private readonly SignInManager<User> signInManager;
         private readonly ILogger<AccountController> logger;
 
-        public AccountController(UserManager<User> userManager, 
-                                SignInManager<User> signInManager, 
+        public AccountController(UserManager<User> userManager,
+                                SignInManager<User> signInManager,
                                 ILogger<AccountController> logger)
         {
             this.userManager = userManager;
@@ -64,10 +64,42 @@ namespace FilmCatalog.Controllers
         }
 
         [HttpGet]
-        public IActionResult SignIn(string returnUrl= null)
+        public IActionResult SignIn(string returnUrl = null)
         {
             return View(new SignInViewModel { ReturnUrl = returnUrl });
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SignIn(SignInViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+                return View(viewModel);
+
+            var signIn = await signInManager.PasswordSignInAsync(viewModel.Email, viewModel.Password, viewModel.RememberMe, false);
+
+            if (!signIn.Succeeded)
+            {
+                ModelState.AddModelError(string.Empty, "неверный логин и пароль");
+
+                return View(viewModel);
+            }
+
+            if (!string.IsNullOrEmpty(viewModel.ReturnUrl) && Url.IsLocalUrl(viewModel.ReturnUrl))
+                return View(viewModel);
+
+            return RedirectToAction("Index", "Home");
+
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await signInManager.SignOutAsync();
+
+            return RedirectToAction("Index", "Home");
+        }
+
+
 
     }
 }
