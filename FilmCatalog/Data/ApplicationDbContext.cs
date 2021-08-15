@@ -11,6 +11,8 @@ namespace FilmCatalog.Data
         {
         }
 
+        public DbSet<Movie> Movies { get; set; }
+        public DbSet<Poster> Posters { get; set; }
 
     }
 }
