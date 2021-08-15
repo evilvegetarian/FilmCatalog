@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -42,8 +43,8 @@ namespace FilmCatalog.Controllers
             var moviesCount = await dbContext.Movies.CountAsync();
             IndexViewModel viewModel = new IndexViewModel();
             viewModel.Movies = movies;
-            viewModel.pageview
-
+            viewModel.PageViewModel = new PageViewModel(moviesCount, page, pageSize);
+            return View(viewModel);
         }
 
         private string ChekPoster(Movie movie)
@@ -53,8 +54,33 @@ namespace FilmCatalog.Controllers
 
             else
                 return "/Files/NotFound.jpeg";
+        }
+        public async Task<IActionResult> Info(int id)
+        {
+            var movie = dbContext.Movies.Include(x => x.Poster).Where(x => x.Id == id).FirstOrDefault();
+            InfoViewModel info = new InfoViewModel();
+            info.Movie = movie;
+            var user = await userManager.GetUserAsync(User);
 
+            if (movie != null && user?.Id == movie.UserId)
+            {
+                movie.Poster.Path = ChekPoster(movie);
+                info.CanEdit = true;
+            }
+            return View(info);
+        }
 
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
+
+
 }

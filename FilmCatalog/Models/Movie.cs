@@ -7,6 +7,8 @@ namespace FilmCatalog.Models
     {
         [Key]
         public int Id { get; set; }
+        [Required, MaxLength(128), Display(Name = "Название")]
+        public string Name { get; set; }
 
         [Required, MaxLength(4096), Display(Name = "Описание")]
         public string Description { get; set; }
@@ -26,7 +28,5 @@ namespace FilmCatalog.Models
 
         [ForeignKey("PosterId")]
         public Poster Poster { get; set; }
-
-
     }
 }
