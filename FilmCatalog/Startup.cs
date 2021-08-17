@@ -1,7 +1,10 @@
 using FilmCatalog.Data;
+using FilmCatalog.Models;
 using FilmCatalog.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,6 +27,13 @@ namespace FilmCatalog
             Configuration.Bind("ConnectionStrings", new Config());
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Config.DefaultConnection));
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.ConfigureApplicationCookie(options => options.LoginPath = "/Account/SignIn");
+            services.AddMvc(options => options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>());
+            services.AddControllersWithViews();
+            services.AddRazorPages();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,10 +55,14 @@ namespace FilmCatalog
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
         }

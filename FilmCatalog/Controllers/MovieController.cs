@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.IO;
 using System.Linq;
@@ -19,17 +20,21 @@ namespace FilmCatalog.Controllers
         private ApplicationDbContext dbContext;
         private UserManager<User> userManager;
         private readonly IWebHostEnvironment webHostEnvironment;
+        private readonly IConfiguration _configuration;
         private readonly int fileSize;
 
 
 
         public MovieController(ApplicationDbContext dbContext,
-            UserManager<User> userManager,
-            IWebHostEnvironment webHostEnvironment)
+                               UserManager<User> userManager,
+                               IWebHostEnvironment webHostEnvironment, 
+                               IConfiguration configuration)
         {
             this.dbContext = dbContext;
             this.userManager = userManager;
             this.webHostEnvironment = webHostEnvironment;
+            _configuration = configuration;
+            fileSize = _configuration.GetValue<int>("PosterSize");
         }
 
         [HttpGet]
@@ -98,7 +103,7 @@ namespace FilmCatalog.Controllers
                 if (viewModel?.Poster != null)
                 {
                     imageDate = FormFileExtensions.GetImageByteArr(viewModel.Poster);
-                    if (FormFileExtensions.ValidateImageExtension(viewModel.Poster, fileSize))
+                    if (FormFileExtensions.ValidateImageSize(viewModel.Poster, fileSize))
                     {
                         ModelState.AddModelError("Poster", $"Размер файла не должен превышать {fileSize} МБ.");
                         return View(viewModel);
